@@ -1,35 +1,81 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+// app/(tabs)/_layout.tsx
+import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import { Text, TouchableOpacity } from "react-native";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+export default function TabsLayout() {
+    return (
+        <Tabs
+            screenOptions={({ navigation }) => ({
+                tabBarActiveTintColor: "#fff",
+                tabBarInactiveTintColor: "#888",
+                tabBarStyle: { backgroundColor: "#000", height: 100, paddingTop: 10, borderWidth: 0, borderTopColor: "#222" },
+                headerShown: true,
+                headerTitleAlign: "center",
+                headerShadowVisible: false,
+                headerTitleStyle: {
+                    color: "#FFFFFF",
+                    fontSize: 16,
+                    fontWeight: "700",
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+                },
+                headerBackButtonDisplayMode: "minimal",
+                headerTintColor: "#FFFFFF",
+                headerStyle: {
+                    backgroundColor: "#000000",
+                    borderBottomColor: "#222",
+                    borderBottomWidth: 0.5,
+                },
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        className="flex flex-row items-center"
+                    >
+                        <Ionicons name="chevron-back" size={24} color="white" />
+                        <Text className="font-bold ml-1 text-white" >Back</Text>
+                    </TouchableOpacity>
+                ),
+            })}
+        >
+            <Tabs.Screen
+                name="index"
+                options={{
+                    title: "Home",
+                    tabBarIcon: ({ color, focused }) => (
+                        <Ionicons
+                            name={focused ? "home" : "home-outline"}
+                            size={22}
+                            color={color}
+                        />
+                    ),
+                    headerLeft: () => null,
+                }}
+            />
+            <Tabs.Screen
+                name="search"
+                options={{
+                    title: "Search",
+                    tabBarIcon: ({ color, focused }) => (
+                        <Ionicons
+                            name={focused ? "search" : "search-outline"}
+                            size={22}
+                            color={color}
+                        />
+                    ),
+                    headerLeft: () => null,
+                }}
+            />
+            <Tabs.Screen
+                name="settings"
+                options={{
+                    title: "Settings",
+                    tabBarIcon: ({ color, focused }) => (
+                        <Ionicons name={focused ? "settings" : "settings-outline"} size={22} color={color} />
+                    ),
+                    headerLeft: () => null,
+                }}
+            />
+        </Tabs>
+    );
 }

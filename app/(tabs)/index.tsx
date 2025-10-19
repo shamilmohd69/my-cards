@@ -1,98 +1,67 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import Card from "@/components/card";
+import TopFilterTabs from "@/components/topFilterTabs";
+import { Ionicons } from "@expo/vector-icons";
+import { BottomSheetModal, useBottomSheetModal } from '@gorhom/bottom-sheet';
+import { useMemo, useRef, useState } from "react";
+import { StatusBar, TouchableOpacity, View } from "react-native";
+import CustomBottomSheet from "../../components/bottomSheet";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
+export default function Index() {
+    const bottomSheetRef = useRef<BottomSheetModal>(null);
+    const [activeTab, setActiveTab] = useState("All");
+
+    const snapPoints = useMemo(() => ['40%', '50%', '90%'], []);
+    const tabs = ["All", "Identity Card", "Driving Licence", "Passport", "Bank Card"];
+
+    const { dismiss } = useBottomSheetModal();
+
+
+
+    const handleOpenBottomSheet = () => {
+        bottomSheetRef.current?.present();
+
+    }
+
+
+
+
+    return (
+        <View
+            className="bg-black flex-1 relative "
+        >
+            <StatusBar barStyle="light-content" />
+            <View className="flex">
+                <TopFilterTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+            </View>
+            <Card
+                title="Aadhaar Card"
+                subtitle={`भारत सरकार \n Government of India `}
+                description="dd"
+                bgColor="white"
+                textColor="black"
+                primaryImage="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi2Ti1hsmjiuaJUHUflORI1kxHy_f6sLn5ryhV6mtKidwbRLV8jz5f6PlHKtlkdrAsb8iuOOPd_ruzUv1bBNIIxbp9N30WVnkX7C4xLo2ZTwr2BhctxG3iVfNaYik0ArCGzkwzD9KD6ZLY/s1600/Emblem_of_India.png"
+                secondaryImage="https://brandlogos.net/wp-content/uploads/2025/03/aadhaar-logo_brandlogos.net_cuek9-512x332.png"
+                bottomText="मेरा आधार, मेरी पहचान"
+                documentNumber="123456789012"
+                fullName="Shamil Mohd"
+                dateOfBirth="01/01/1990"
+                address="123, Sample Street, City, Country"
             />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+            <TouchableOpacity
+                activeOpacity={0.9}
+                onLongPress={() => console.log("Long press detected!")}
+                className="absolute bottom-6 right-6 bg-[#d71921] w-16 h-16 rounded-full justify-center items-center shadow-lg"
+                onPress={() => handleOpenBottomSheet()}
+            >
+                <Ionicons name="add" size={30} color="white" />
+            </TouchableOpacity>
+            <CustomBottomSheet
+                ref={bottomSheetRef}
+                title="Add New Card"
+                snapPoints={snapPoints}
+            />
+        </View>
+    );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
