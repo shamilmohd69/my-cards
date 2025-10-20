@@ -3,7 +3,7 @@ import TopFilterTabs from "@/components/topFilterTabs";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal, useBottomSheetModal } from '@gorhom/bottom-sheet';
 import { useMemo, useRef, useState } from "react";
-import { StatusBar, TouchableOpacity, View } from "react-native";
+import { ScrollView, StatusBar, TouchableOpacity, View } from "react-native";
 import CustomBottomSheet from "../../components/bottomSheet";
 
 
@@ -34,21 +34,25 @@ export default function Index() {
             <View className="flex">
                 <TopFilterTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
             </View>
-            <Card
-                title="Aadhaar Card"
-                subtitle={`भारत सरकार \n Government of India `}
-                description="dd"
-                bgColor="white"
-                textColor="black"
-                primaryImage="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi2Ti1hsmjiuaJUHUflORI1kxHy_f6sLn5ryhV6mtKidwbRLV8jz5f6PlHKtlkdrAsb8iuOOPd_ruzUv1bBNIIxbp9N30WVnkX7C4xLo2ZTwr2BhctxG3iVfNaYik0ArCGzkwzD9KD6ZLY/s1600/Emblem_of_India.png"
-                secondaryImage="https://brandlogos.net/wp-content/uploads/2025/03/aadhaar-logo_brandlogos.net_cuek9-512x332.png"
-                bottomText="मेरा आधार, मेरी पहचान"
-                documentNumber="123456789012"
-                fullName="Shamil Mohd"
-                dateOfBirth="01/01/1990"
-                address="123, Sample Street, City, Country"
-            />
-
+            <ScrollView>
+                <Card
+                    title="Aadhaar Card"
+                    description="dd"
+                    qrCodeImage="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
+                    documentNumber="123456789012"
+                    fullName="Shamil Mohd"
+                    dateOfBirth="01/01/1990"
+                    address="123, Sample Street, City, Country"
+                />
+                <Card
+                    title="Debit Card"
+                    fullName="Shamil Mohd"
+                    description="Platinum"
+                    documentNumber="1234567890123456"
+                    expireDate="12/30"
+                    primaryImage="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXjFzV2ttx1v_pdb2YN7ajP0bmEQlINGtzmA&s"
+                />
+            </ScrollView>
             <TouchableOpacity
                 activeOpacity={0.9}
                 onLongPress={() => console.log("Long press detected!")}
