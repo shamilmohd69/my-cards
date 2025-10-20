@@ -3,22 +3,31 @@ import { Image, Text, View } from "react-native";
 
 interface CardProps {
     title: string;
-    subtitle?: string;
     fullName?: string;
     description?: string;
     primaryImage?: string;
     secondaryImage?: string;
     qrCodeImage?: string;
-    bgColor?: string;
-    textColor?: string;
-    bottomText?: string;
+    bgImage?: string;
     documentNumber?: string;
     dateOfBirth?: string;
     expireDate?: string;
     address?: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, description, primaryImage, dateOfBirth, address, fullName, qrCodeImage, documentNumber, expireDate }) => {
+const Card: React.FC<CardProps> = ({
+    title,
+    description,
+    primaryImage,
+    secondaryImage,
+    bgImage,
+    dateOfBirth,
+    address,
+    fullName,
+    qrCodeImage,
+    documentNumber,
+    expireDate
+}) => {
 
     if (title === "Aadhaar Card") {
         return (
@@ -66,12 +75,11 @@ const Card: React.FC<CardProps> = ({ title, description, primaryImage, dateOfBir
                             qrCodeImage && (
                                 <Image
                                     source={{ uri: qrCodeImage }}
-                                    className="w-24 h-24 mb-4 ml-4"
+                                    className="w-24 h-24  ml-4"
                                     resizeMode="contain"
                                 />
                             )
                         }
-
                     </View>
                 </View>
                 <View>
@@ -83,8 +91,6 @@ const Card: React.FC<CardProps> = ({ title, description, primaryImage, dateOfBir
                         </Text>
                     )}
                     <Text className="text-center py-2  text-xl border-t-2 border-[#d71921]  font-medium text-black">मेरा <Text className="text-[#d71921]">आधार,</Text>  मेरी पहचान</Text>
-
-
                 </View>
             </View>
         );
@@ -94,46 +100,53 @@ const Card: React.FC<CardProps> = ({ title, description, primaryImage, dateOfBir
     if (title === "Debit Card") {
         return (
             <View className="rounded-xl  shadow-md  m-2 min-h-72 relative flex flex-col justify-between " >
-                <Image source={{ uri: 'https://media.istockphoto.com/id/1498657258/vector/abstract-dark-blue-blurred-defocused-gradient-background-with-dynamic-effect.jpg?s=612x612&w=0&k=20&c=vMPhXTUdwfOK04ZM7k7qRPahqb3EogVJSWI5NmFpo9U=' }} className="absolute inset-0 rounded-xl " resizeMode="cover" />
+                <Image source={{ uri: bgImage }} className="absolute inset-0 rounded-xl " resizeMode="cover" />
                 <View className="p-5 flex-1 justify-between">
-                    {/* Top Row */}
                     <View className="flex flex-row justify-between items-center">
-                        <Text className="text-white text-lg font-semibold">{description}</Text>
+                        <Text className="text-white text-lg font-semibold" style={{ fontFamily: "SpaceGrotesk" }}>{description}</Text>
                         <Image
                             source={{
                                 uri: primaryImage
                             }}
                             className="w-32 h-12"
-                            resizeMode="contain"
+                            resizeMode="center"
                         />
                     </View>
 
                     <View className="mt-3">
-                        <Image
-                            source={{
-                                uri: "https://cdn-icons-png.freepik.com/256/6404/6404078.png?semt=ais_white_label",
-                            }}
-                            className="w-14 h-14 mb-2"
-                            resizeMode="contain"
-                        />
+                        <View className="flex flex-row justify-between items-center">
+                            <Image
+                                source={{
+                                    uri: "https://cdn-icons-png.freepik.com/256/6404/6404078.png?semt=ais_white_label",
+                                }}
+                                className="w-14 h-14 mb-2"
+                                resizeMode="contain"
+                            />
+                            <Image
+                                source={{
+                                    uri: secondaryImage
+                                }}
+                                className="w-24 h-20 mb-2"
+                                resizeMode="contain"
+                            />
 
-                        {/* Card Number */}
+                        </View>
+
                         {documentNumber && (
-                            <Text className="text-white text-2xl tracking-widest font-semibold">
+                            <Text className="text-white text-2xl tracking-widest font-semibold" >
                                 {documentNumber.replace(/(\d{4})(?=\d)/g, "$1  ")}
                             </Text>
                         )}
                     </View>
 
-                    {/* Bottom Section */}
                     <View className="flex flex-row justify-between items-end mt-6">
                         <View>
-                            <Text className="text-gray-300 text-xs uppercase">Card Holder</Text>
+                            <Text className="text-gray-300 text-xs uppercase" style={{ fontFamily: "SpaceGrotesk" }}>Card Holder</Text>
                             <Text className="text-white text-lg font-medium mt-1">{fullName}</Text>
                         </View>
                         {expireDate && (
                             <View>
-                                <Text className="text-gray-300 text-xs uppercase">Valid Upto</Text>
+                                <Text className="text-gray-300 text-xs uppercase" style={{ fontFamily: "SpaceGrotesk" }}>Valid Upto</Text>
                                 <Text className="text-white text-lg font-medium mt-1 text-right">{expireDate}</Text>
                             </View>
                         )}

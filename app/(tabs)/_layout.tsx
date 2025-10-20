@@ -9,14 +9,24 @@ export default function TabsLayout() {
             screenOptions={({ navigation }) => ({
                 tabBarActiveTintColor: "#fff",
                 tabBarInactiveTintColor: "#888",
-                tabBarStyle: { backgroundColor: "#000", height: 100, paddingTop: 10, borderWidth: 0, borderTopColor: "#222" },
+                tabBarStyle: {
+                    backgroundColor: "#000",
+                    height: 100,
+                    paddingTop: 10,
+                    borderWidth: 0,
+                    borderTopColor: "#222"
+                },
+                tabBarLabelStyle: {
+                    fontFamily: "Doto-Medium",
+                    fontSize: 12,
+                },
                 headerShown: true,
                 headerTitleAlign: "center",
                 headerShadowVisible: false,
                 headerTitleStyle: {
                     color: "#FFFFFF",
-                    fontSize: 16,
-                    fontWeight: "700",
+                    fontSize: 18,
+                    fontFamily: "Doto-Bold",
 
                 },
                 headerBackButtonDisplayMode: "minimal",
