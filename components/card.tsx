@@ -122,6 +122,7 @@ const Card: React.FC<CardProps> = ({
                                 className="w-14 h-14 mb-2"
                                 resizeMode="contain"
                             />
+                            <Text className="text-white text-lg font-semibold" style={{ fontFamily: "SpaceGrotesk" }}>{title}</Text>
                             <Image
                                 source={{
                                     uri: secondaryImage
@@ -156,6 +157,8 @@ const Card: React.FC<CardProps> = ({
         );
 
     }
+
+
 };
 
 export default Card;

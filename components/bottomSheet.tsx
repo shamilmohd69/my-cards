@@ -1,6 +1,7 @@
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetTextInput, BottomSheetView } from "@gorhom/bottom-sheet";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
-import { BackHandler, Pressable, Text, View } from "react-native";
+import { BackHandler, Pressable, Text, TouchableOpacity, View } from "react-native";
 import CustomDropdown from "./CustomDropdown";
 
 interface Props {
@@ -14,6 +15,7 @@ type Ref = BottomSheetModal;
 
 const customBottomSheet = forwardRef<Ref, Props>((props, ref) => {
 
+    const [formData, setFormData] = useState<any>({});
     const [isSelectOpen, setIsSelectOpen] = useState(false);
 
     useEffect(() => {
@@ -30,6 +32,7 @@ const customBottomSheet = forwardRef<Ref, Props>((props, ref) => {
             backAction
         );
 
+
         return () => backHandler.remove();
     }, [ref]);
 
@@ -43,6 +46,30 @@ const customBottomSheet = forwardRef<Ref, Props>((props, ref) => {
         ),
         []
     );
+
+    const storeData = async (value: any) => {
+        try {
+            // get existing data
+            const existingData = await AsyncStorage.getItem('my-key-data');
+            console.log(existingData);
+
+            let dataArray = [];
+
+            if (existingData !== null) {
+                dataArray = JSON.parse(existingData);
+            }
+
+            // push new entry
+            dataArray.push(value);
+
+            // save back
+            await AsyncStorage.setItem('my-key-data', JSON.stringify(dataArray));
+            console.log("Saved array:", dataArray);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
 
     const [cardType, setCardType] = useState("");
     return (
@@ -81,40 +108,44 @@ const customBottomSheet = forwardRef<Ref, Props>((props, ref) => {
                         ]}
                     />
                     <View className="relative z-0">
-                        <Text className="text-white mt-4">Card Name</Text>
+                        <Text className="text-white mt-4">Card Holder Name</Text>
                         <BottomSheetTextInput
-                            placeholder="Name"
+                            value={formData.name}
+                            onChangeText={(text) => setFormData({ ...formData, name: text })}
+                            placeholder="Your Name"
                             placeholderTextColor="#888"
                             className="text-white mt-4 mb-2 border border-gray-700 rounded-md p-3 bg-[#1E1C1C]"
                         />
                     </View>
                     <View className="relative z-0">
-                        <Text className="text-white mt-4">Card Name</Text>
+                        <Text className="text-white mt-4">Document Number</Text>
                         <BottomSheetTextInput
-                            placeholder="Name"
+                            value={formData.documentNumber}
+                            onChangeText={(text) => setFormData({ ...formData, documentNumber: text })}
+                            placeholder="Document Number"
                             placeholderTextColor="#888"
                             className="text-white mt-4 mb-2 border border-gray-700 rounded-md p-3 bg-[#1E1C1C]"
                         />
                     </View>
-                    <View className="relative z-0">
-                        <Text className="text-white mt-4">Card Name</Text>
-                        <BottomSheetTextInput
-                            placeholder="Name"
-                            placeholderTextColor="#888"
-                            className="text-white mt-4 mb-2 border border-gray-700 rounded-md p-3 bg-[#1E1C1C]"
-                        />
-                    </View>
-                    <View className="relative z-0">
-                        <Text className="text-white mt-4">Card Name</Text>
-                        <BottomSheetTextInput
-                            placeholder="Name"
-                            placeholderTextColor="#888"
-                            className="text-white mt-4 mb-2 border border-gray-700 rounded-md p-3 bg-[#1E1C1C]"
-                        />
-                    </View>
+
+                    <TouchableOpacity onPress={() => {
+                        storeData(formData);
+                        console.log(formData);
+                        if (ref && "current" in ref && ref.current) {
+                            ref.current.dismiss();
+                        }
+                        setFormData({});
+
+
+                    }}>
+                        <View className="bg-[#d71921] rounded-full mt-6 p-4 px-10 items-center w-fit mx-auto">
+                            <Text className="text-white font-bold text-base">Save</Text>
+                        </View>
+                    </TouchableOpacity>
+
                 </Pressable>
             </BottomSheetView>
-        </BottomSheetModal>
+        </BottomSheetModal >
     );
 });
 

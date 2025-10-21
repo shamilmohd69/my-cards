@@ -22,10 +22,8 @@ const CustomDropdown: React.FC<Props> = ({ label, items, selectedValue, onValueC
 
     return (
         <View className="mb-4 relative z-10">
-            {/* Label */}
             <Text className="text-white mb-2">{label}</Text>
 
-            {/* Dropdown box */}
             <TouchableOpacity
                 className="flex-row justify-between items-center p-3 border border-gray-700 rounded-md bg-[#1E1C1C]"
                 onPress={() => setIsSelectOpen(!isSelectOpen)}
