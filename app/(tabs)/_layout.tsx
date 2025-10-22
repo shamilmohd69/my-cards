@@ -32,7 +32,7 @@ export default function TabsLayout() {
                 headerBackButtonDisplayMode: "minimal",
                 headerTintColor: "#FFFFFF",
                 headerStyle: {
-                    backgroundColor: "#000000",
+                    backgroundColor: "#000",
                     borderBottomColor: "#222",
                     borderBottomWidth: 0.5,
                 },

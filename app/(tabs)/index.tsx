@@ -2,6 +2,7 @@ import Card from "@/components/card";
 import TopFilterTabs from "@/components/topFilterTabs";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { useRouter } from "expo-router";
 import { useMemo, useRef, useState } from "react";
 import { ScrollView, StatusBar, TouchableOpacity, View } from "react-native";
 import CustomBottomSheet from "../../components/bottomSheet";
@@ -10,6 +11,7 @@ import CustomBottomSheet from "../../components/bottomSheet";
 export default function Index() {
     const bottomSheetRef = useRef<BottomSheetModal>(null);
     const [activeTab, setActiveTab] = useState("All");
+    const router = useRouter();
 
     const snapPoints = useMemo(() => ['40%', '50%', '90%'], []);
     const tabs = ["All", "Identity Card", "Driving Licence", "Passport", "Bank Card"];
@@ -81,7 +83,7 @@ export default function Index() {
                 activeOpacity={0.9}
                 onLongPress={() => console.log("Long press detected!")}
                 className="absolute bottom-6 right-6 bg-[#d71921] w-16 h-16 rounded-full justify-center items-center shadow-lg"
-                onPress={() => handleOpenBottomSheet()}
+                onPress={() => router.push('/addCards/addNewCard')}
             >
                 <Ionicons name="add" size={30} color="white" />
             </TouchableOpacity>
