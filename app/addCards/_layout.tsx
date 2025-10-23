@@ -33,7 +33,7 @@ export default function TabsLayout() {
                         className="flex flex-row items-center"
                     >
                         <Ionicons name="chevron-back" size={24} color="white" />
-                        <Text className="font-bold ml-1 text-white" >Back</Text>
+                        <Text className=" ml-1 text-white" style={{ fontFamily: "Doto-Bold" }}>Back</Text>
                     </TouchableOpacity>
                 ),
             })}

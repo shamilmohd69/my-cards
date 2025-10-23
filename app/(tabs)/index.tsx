@@ -2,19 +2,23 @@ import Card from "@/components/card";
 import TopFilterTabs from "@/components/topFilterTabs";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StatusBar, TouchableOpacity, View } from "react-native";
 import CustomBottomSheet from "../../components/bottomSheet";
 
 
 export default function Index() {
     const bottomSheetRef = useRef<BottomSheetModal>(null);
+    const [asyncData, setAsyncData] = useState<any[]>([]);
     const [activeTab, setActiveTab] = useState("All");
     const router = useRouter();
 
     const snapPoints = useMemo(() => ['40%', '50%', '90%'], []);
     const tabs = ["All", "Identity Card", "Driving Licence", "Passport", "Bank Card"];
+
+
 
     const cardData = [
         {
@@ -51,6 +55,25 @@ export default function Index() {
         bottomSheetRef.current?.present();
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const storedData = await AsyncStorage.getItem("my-key-data");
+                if (storedData) {
+                    const parsed = JSON.parse(storedData);
+                    console.log("📦 Async Data Loaded:", parsed);
+                    setAsyncData(parsed);
+                } else {
+                    console.log("⚠️ No data found in AsyncStorage");
+                }
+            } catch (error) {
+                console.error("❌ Error reading data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <View
             className="bg-black flex-1 relative "
@@ -61,7 +84,7 @@ export default function Index() {
             </View>
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }} >
                 {
-                    cardData.map((card, index) => (
+                    asyncData.map((card, index) => (
                         <Card
                             key={index}
                             title={card.title}
